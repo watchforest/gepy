@@ -8,14 +8,13 @@ import networkx as nx
 # Initialize Pygame
 pygame.init()
 
-# Define constants
-WIDTH, HEIGHT = 1400, 1200
-FPS = 60
 
 # Define colors using pygame.Color
 WHITE = pygame.Color(255, 255, 255)
 BLACK = pygame.Color(0, 0, 0)
 RED = pygame.Color(255, 0, 0)
+GREEN = pygame.Color(0, 255, 0)
+BACKGROUND_COLOR = pygame.Color('#DAD6C1')
 
 # Define constants
 # Setup the display in fullscreen mode without window borders
