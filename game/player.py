@@ -40,9 +40,9 @@ class Player(pygame.sprite.Sprite):
                 self.message = self.node.message
                 self.moving = False
 
-    def draw_message(self, surface):
+    def draw_message(self, surface, camera_offset):
         if self.message:
             WHITE = pygame.Color(255, 255, 255)
             font = pygame.font.Font(None, 36)
             text_surface = font.render(self.message, True, WHITE)
-            surface.blit(text_surface, (self.rect.x + 30, self.rect.y - 20))
+            surface.blit(text_surface, (self.rect.x + 30 + camera_offset.x, self.rect.y - 20 + camera_offset.y))
