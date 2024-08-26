@@ -1,7 +1,9 @@
-
 import pygame
 import sys
 import os
+from create_network import create_network  # Import from create_network module
+from game.player import Player  # Import Player class from player module
+from game.camera import Camera  # Import Camera class from camera module
 
 # Initialize Pygame
 pygame.init()
@@ -59,13 +61,10 @@ class Button:
         else:
             self.hovered = False
 
-# Game state management
 def game_loop():
-    from create_network import create_network, Player, Camera  # Import from create_network
-
     # Initialize network and player
     network = create_network()
-    player = Player(network.nodes[0])
+    player = Player(network.nodes[0], pygame.Color(255, 0, 0))  # Using red color for player
 
     # Initialize camera
     camera = Camera(WIDTH * 2, HEIGHT * 2)  # Assuming a large enough map
