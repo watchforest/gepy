@@ -6,8 +6,8 @@ class Network:
         self.nodes = []
         self.edges = []
 
-    def add_node(self, x, y):
-        node = Node(x, y)
+    def add_node(self, x, y, name, message):
+        node = Node(x, y, name, message)
         self.nodes.append(node)
         return node
 
@@ -15,8 +15,10 @@ class Network:
         edge = Edge(node1, node2)
         self.edges.append(edge)
 
-    def draw(self, screen):
+    def draw(self, screen, color):
         for edge in self.edges:
-            edge.draw(screen, WHITE)
+            edge.draw(screen, color)
         for node in self.nodes:
-            node.draw(screen, WHITE)
+            node.draw(screen, color)
+
+
