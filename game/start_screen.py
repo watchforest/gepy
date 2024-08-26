@@ -19,7 +19,7 @@ FPS = 60
 # Define colors
 WHITE = pygame.Color(255, 255, 255)
 BLACK = pygame.Color(0, 0, 0)
-BACKGROUND_COLOR = pygame.Color('#DAD6C1')
+BACKGROUND_COLOR = pygame.Color(BLACK)
 
 # Load the custom font for the title
 font_path = os.path.join('assets', 'font', 'Pastor of Muppets.TTF')
@@ -38,18 +38,18 @@ class Button:
     def __init__(self, text, x, y, width, height, action=None):
         self.text = text
         self.rect = pygame.Rect(x, y, width, height)
-        self.color = BLACK  # Button color is initially BLACK
-        self.text_color = WHITE  # Text color is initially WHITE
+        self.color = WHITE  # Button color is initially BLACK
+        self.text_color = BLACK  # Text color is initially WHITE
         self.hovered = False
         self.action = action
         self.font = pygame.font.Font(font_path, 74)  # Use the same font as the title
 
     def draw(self, surface):
         if self.hovered:
-            pygame.draw.rect(surface, WHITE, self.rect)
+            pygame.draw.rect(surface, BLACK, self.rect)
         else:
             pygame.draw.rect(surface, self.color, self.rect)
-        text_surface = self.font.render(self.text, True, self.text_color if not self.hovered else BLACK)
+        text_surface = self.font.render(self.text, True, self.text_color if not self.hovered else WHITE)
         surface.blit(text_surface, (self.rect.x + (self.rect.width - text_surface.get_width()) // 2,
                                     self.rect.y + (self.rect.height - text_surface.get_height()) // 2))
 
@@ -96,12 +96,12 @@ def start_screen():
     def start_new_game():
         game_loop()
 
-    start_button = Button("Start", WIDTH // 4 - 150, HEIGHT // 2 + 100, 300, 75, start_new_game)
+    start_button = Button("start", WIDTH // 4 - 150, HEIGHT // 2 + 100, 300, 75, start_new_game)
 
     running = True
     while running:
         screen.fill(BACKGROUND_COLOR)  # Set background color to the specified hex color
-        title_surface = title_font.render("SYNDESI", True, BLACK)
+        title_surface = title_font.render("SYNDESI", True, WHITE)
         screen.blit(title_surface, (WIDTH // 2 - title_surface.get_width() // 2, HEIGHT // 10))  # Move title up
 
         for event in pygame.event.get():
