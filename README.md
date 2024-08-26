@@ -8,7 +8,7 @@ network_game/
 ├── game/
 │   ├── __init__.py
 │   ├── node.py
-│   ├── edge.py
+│   ├── edge.py 
 │   ├── player.py
 │   ├── network.py
 ├── assets/
