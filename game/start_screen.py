@@ -62,7 +62,7 @@ def game_loop():
     network = create_network('assets/network/random_graph_100_nodes.gexf')
     player = Player(network.nodes[0], pygame.Color(255, 0, 0))
 
-    camera = Camera(WIDTH * 2, HEIGHT * 2)
+    camera = Camera(WIDTH / 2, HEIGHT / 2)
 
     running = True
     while running:
@@ -77,7 +77,7 @@ def game_loop():
         camera_offset = camera.apply_offset()
 
         screen.fill(colors.BLACK)
-        network.draw(screen, camera_offset)
+        network.draw(screen, colors.WHITE, camera_offset)
         screen.blit(player.image, player.rect.move(camera_offset))
         player.draw_message(screen, camera_offset)
 

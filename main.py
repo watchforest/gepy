@@ -1,11 +1,6 @@
 import pygame
-import sys
-from game.network import Network
-from game.player import Player
-from game.create_network import load_gexf_to_network
 from game.start_screen import start_screen
-import game.colors as colors
-from game.camera import Camera
+
 
 # Initialize Pygame
 pygame.init()
@@ -23,33 +18,3 @@ font = pygame.font.Font(None, 36)
 
 # Start screen function
 start_screen()
-
-# After the start screen is done, initialize the network and player
-G = 'assets/network/star_topology.gexf'
-network = Network()
-load_gexf_to_network(G, network)
-
-# Initialize the player at the starting node
-player = Player(network.nodes[9], colors.RED)
-
-# Main game loop
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    keys = pygame.key.get_pressed()
-    player.update(keys)
-
-    Camera.update(player)
-
-    screen.fill(colors.BLACK)
-    network.draw(screen, colors.WHITE)
-    screen.blit(player.image, player.rect)
-    player.draw_message(screen)
-    pygame.display.flip()
-    clock.tick(FPS)
-
-pygame.quit()
-sys.exit()

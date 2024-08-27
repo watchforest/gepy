@@ -1,4 +1,4 @@
-from pygame import Color, font
+from pygame import Color
 
 
 WHITE = Color(255, 255, 255)
