@@ -89,7 +89,7 @@ def game_loop():
 
 # Campaign menu
 def campaign_menu():
-    stage_buttons = [Button(f"Stage {i+1}", WIDTH // 4, HEIGHT // 5 + i * 40, 300, 50, lambda i=i: start_stage(i)) for i in range(20)]
+    stage_buttons = [Button(f"Stage {i+1}", WIDTH // 4, HEIGHT // 5 + i * 40, 300, 50, lambda i=i: start_stage(i)) for i in range(3)]
 
     running = True
     while running:
@@ -127,13 +127,13 @@ def run_files():
 
 # Start screen
 def start_screen():
-    start_button = Button("Start", WIDTH // 4 - 150, HEIGHT // 2 + 100, 300, 75, game_loop)
-    campaign_button = Button("Campaign", WIDTH // 4 - 150, HEIGHT // 2 + 200, 300, 75, campaign_menu)
-    upload_button = Button("Upload Files", WIDTH // 4 - 150, HEIGHT // 2 + 300, 300, 75, upload_files)
-    run_button = Button("Run Files", WIDTH // 4 - 150, HEIGHT // 2 + 400, 300, 75, run_files)
+    #start_button = Button("Start", WIDTH // 4 - 150, HEIGHT // 2 + 100, 300, 75, game_loop)
+    levels_button = Button("Levels", WIDTH // 4 - 150, HEIGHT // 2 + 100, 300, 75, campaign_menu)
+   # upload_button = Button("Upload Files", WIDTH // 4 - 150, HEIGHT // 2 + 300, 300, 75, upload_files)
+    #run_button = Button("Run Files", WIDTH // 4 - 150, HEIGHT // 2 + 400, 300, 75, run_files)
     exit_button = Button("Exit Game", WIDTH - 250, 50, 200, 75, lambda: (pygame.quit(), sys.exit()))
 
-    buttons = [start_button, campaign_button, upload_button, run_button, exit_button]
+    buttons =  [levels_button, exit_button] #start_button, upload_button, run_button. 
 
     running = True
     while running:
