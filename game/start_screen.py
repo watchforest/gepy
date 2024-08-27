@@ -59,15 +59,12 @@ class Button:
 
 # Game loop definition
 def game_loop():
+    # Load the network and initialize the player
     network = create_network('assets/network/random_graph_100_nodes.gexf')
     player = Player(network.nodes[0], pygame.Color(255, 0, 0))
 
-    # Assume the map is larger than the screen size
-    map_width = 2000  # Replace with your map's width
-    map_height = 2000  # Replace with your map's height
-
-    # Initialize the camera to follow the player within the map bounds
-    camera = Camera(WIDTH, HEIGHT, map_width, map_height)
+    # Initialize the camera to match the screen size
+    camera = Camera(WIDTH, HEIGHT)
 
     running = True
     while running:
@@ -75,22 +72,19 @@ def game_loop():
             if event.type == pygame.QUIT:
                 running = False
 
+        # Update the player based on user input
         keys = pygame.key.get_pressed()
         player.update(keys)
 
-        # Update the camera position to follow the player
+        # Update the camera to follow the player
         camera.update(player)
-        camera_offset = camera.apply_offset()
 
+        # Clear the screen and redraw everything with the camera offset
         screen.fill(colors.BLACK)
-        
-        # Draw the network with camera offset
-        network.draw(screen, colors.WHITE, camera_offset)
+        network.draw(screen, colors.WHITE, camera)  # Ensure network.draw handles the camera
+        screen.blit(player.image, camera.apply(player.rect))  # Draw the player with camera offset
 
-        # Draw the player with camera offset
-        screen.blit(player.image, player.rect.move(camera_offset))
-        player.draw_message(screen, camera_offset)
-
+        # Refresh the display
         pygame.display.flip()
         clock.tick(FPS)
 
