@@ -5,6 +5,7 @@ from game.player import Player
 from game.create_network import load_gexf_to_network
 from game.start_screen import start_screen
 import game.colors as colors
+from game.camera import Camera
 
 # Initialize Pygame
 pygame.init()
@@ -40,6 +41,8 @@ while running:
 
     keys = pygame.key.get_pressed()
     player.update(keys)
+
+    Camera.update(player)
 
     screen.fill(colors.BLACK)
     network.draw(screen, colors.WHITE)
