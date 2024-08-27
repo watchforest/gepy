@@ -28,14 +28,45 @@ def load_gexf_to_network(gexf_file_path, network, scale=350):
         network.add_edge(node1, node2)
 
         # Only add the closest node in each direction
-        if node1.x < node2.x:  # Right direction
-            if 'right' not in node1.neighbors or (node2.x - node1.x) < (node1.neighbors['right'].x - node1.x):
-                node1.add_neighbor('right', node2)
-                node2.add_neighbor('left', node1)
-        elif node1.y < node2.y:  # Down direction
-            if 'down' not in node1.neighbors or (node2.y - node1.y) < (node1.neighbors['down'].y - node1.y):
-                node1.add_neighbor('down', node2)
-                node2.add_neighbor('up', node1)
+        def add_neighbor_if_closer(node1, node2, direction1, direction2):
+            if direction1 not in node1.neighbors or (
+                (node2.x - node1.x) ** 2 + (node2.y - node1.y) ** 2
+            ) < (
+                (node1.neighbors[direction1].x - node1.x) ** 2 + (node1.neighbors[direction1].y - node1.y) ** 2
+            ):
+                node1.add_neighbor(direction1, node2)
+                node2.add_neighbor(direction2, node1)
+
+        for source, target in graph.edges():
+            node1 = node_dict[source]
+            node2 = node_dict[target]
+            network.add_edge(node1, node2)
+
+            if node1 != node2:
+                dx = node2.x - node1.x
+                dy = node2.y - node1.y
+
+                # Primary Directions
+                if dx > 0 and abs(dy) <= abs(dx):  # Mostly right
+                    add_neighbor_if_closer(node1, node2, 'right', 'left')
+                elif dx < 0 and abs(dy) <= abs(dx):  # Mostly left
+                    add_neighbor_if_closer(node1, node2, 'left', 'right')
+                if dy > 0 and abs(dx) <= abs(dy):  # Mostly down
+                    add_neighbor_if_closer(node1, node2, 'down', 'up')
+                elif dy < 0 and abs(dx) <= abs(dy):  # Mostly up
+                    add_neighbor_if_closer(node1, node2, 'up', 'down')
+
+                # Diagonal Directions
+                if dx > 0 and dy < 0:  # Up-right
+                    add_neighbor_if_closer(node1, node2, 'up-right', 'down-left')
+                elif dx > 0 and dy > 0:  # Down-right
+                    add_neighbor_if_closer(node1, node2, 'down-right', 'up-left')
+                elif dx < 0 and dy < 0:  # Up-left
+                    add_neighbor_if_closer(node1, node2, 'up-left', 'down-right')
+                elif dx < 0 and dy > 0:  # Down-left
+                    add_neighbor_if_closer(node1, node2, 'down-left', 'up-right')
+
+
 
 def create_network(gexf_file_path):
     # Initialize the network
