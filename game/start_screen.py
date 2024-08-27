@@ -38,8 +38,8 @@ class Button:
     def __init__(self, text, x, y, width, height, action=None):
         self.text = text
         self.rect = pygame.Rect(x, y, width, height)
-        self.color = WHITE  # Button color is initially BLACK
-        self.text_color = BLACK  # Text color is initially WHITE
+        self.color = WHITE  # Button color is initially WHITE
+        self.text_color = BLACK  # Text color is initially BLACK
         self.hovered = False
         self.action = action
         self.font = pygame.font.Font(font_path, 74)  # Use the same font as the title
@@ -61,6 +61,7 @@ class Button:
         else:
             self.hovered = False
 
+# Ensure the game_loop function is defined before it is used
 def game_loop():
     # Initialize network and player
     network = create_network()
@@ -92,11 +93,54 @@ def game_loop():
     pygame.quit()
     sys.exit()
 
-def start_screen():
-    def start_new_game():
-        game_loop()
+def campaign_menu():
+    # A simple campaign menu with 20 stages
+    stage_buttons = []
+    for i in range(20):
+        stage_buttons.append(Button(f"Stage {i+1}", WIDTH // 4, HEIGHT // 5 + i * 40, 300, 50, lambda i=i: start_stage(i)))
 
-    start_button = Button("start", WIDTH // 4 - 150, HEIGHT // 2 + 100, 300, 75, start_new_game)
+    running = True
+    while running:
+        screen.fill(BACKGROUND_COLOR)
+        title_surface = title_font.render("Campaign", True, WHITE)
+        screen.blit(title_surface, (WIDTH // 2 - title_surface.get_width() // 2, HEIGHT // 10))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_position = pygame.mouse.get_pos()
+                for button in stage_buttons:
+                    if button.check_for_input(mouse_position):
+                        button.action()
+
+        mouse_position = pygame.mouse.get_pos()
+        for button in stage_buttons:
+            button.check_for_input(mouse_position)
+            button.draw(screen)
+
+        pygame.display.flip()
+        clock.tick(FPS)
+
+    pygame.quit()
+    sys.exit()
+
+def start_stage(stage_number):
+    print(f"Starting stage {stage_number + 1}...")  # Replace with actual stage start logic
+
+def upload_files():
+    print("Uploading files...")  # Replace with file upload logic
+
+def run_files():
+    print("Running files...")  # Replace with file run logic
+
+def start_screen():
+    start_button = Button("start", WIDTH // 4 - 150, HEIGHT // 2 + 100, 300, 75, game_loop)
+    campaign_button = Button("campaign", WIDTH // 4 - 150, HEIGHT // 2 + 200, 300, 75, campaign_menu)
+    upload_button = Button("upload files", WIDTH // 4 - 150, HEIGHT // 2 + 300, 300, 75, upload_files)
+    run_button = Button("run Files", WIDTH // 4 - 150, HEIGHT // 2 + 400, 300, 75, run_files)
+
+    buttons = [start_button, campaign_button, upload_button, run_button]
 
     running = True
     while running:
@@ -109,13 +153,14 @@ def start_screen():
                 running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_position = pygame.mouse.get_pos()
-                if start_button.check_for_input(mouse_position):
-                    start_button.action()  # Trigger the start game action
+                for button in buttons:
+                    if button.check_for_input(mouse_position):
+                        button.action()  # Trigger the button's action
 
         mouse_position = pygame.mouse.get_pos()
-        start_button.check_for_input(mouse_position)
-
-        start_button.draw(screen)
+        for button in buttons:
+            button.check_for_input(mouse_position)
+            button.draw(screen)
 
         # Draw the image on the right side of the screen
         screen.blit(start_screen_image, (WIDTH - start_screen_image.get_width() - 50, HEIGHT // 2 - start_screen_image.get_height() // 4))
