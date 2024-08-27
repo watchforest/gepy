@@ -23,7 +23,35 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, keys):
         if not self.moving:
-            if keys[pygame.K_RIGHT] and 'right' in self.node.neighbors:
+            # Check for diagonal movement options
+            if keys[pygame.K_UP] and keys[pygame.K_RIGHT]:
+                if 'up-right' in self.node.neighbors:
+                    self.move_to_node(self.node.neighbors['up-right'])
+                elif 'up' in self.node.neighbors and 'right' in self.node.neighbors:
+                    # If there is no direct 'up-right' option, you could potentially offer other options
+                    # For example, you could move up or right based on a condition, or just move up-right:
+                    self.move_to_node(self.node.neighbors['up-right'])
+            
+            elif keys[pygame.K_UP] and keys[pygame.K_LEFT]:
+                if 'up-left' in self.node.neighbors:
+                    self.move_to_node(self.node.neighbors['up-left'])
+                elif 'up' in self.node.neighbors and 'left' in self.node.neighbors:
+                    self.move_to_node(self.node.neighbors['up-left'])
+            
+            elif keys[pygame.K_DOWN] and keys[pygame.K_RIGHT]:
+                if 'down-right' in self.node.neighbors:
+                    self.move_to_node(self.node.neighbors['down-right'])
+                elif 'down' in self.node.neighbors and 'right' in self.node.neighbors:
+                    self.move_to_node(self.node.neighbors['down-right'])
+    
+            elif keys[pygame.K_DOWN] and keys[pygame.K_LEFT]:
+                if 'down-left' in self.node.neighbors:
+                    self.move_to_node(self.node.neighbors['down-left'])
+                elif 'down' in self.node.neighbors and 'left' in self.node.neighbors:
+                    self.move_to_node(self.node.neighbors['down-left'])
+    
+            # Check for single direction movement options
+            elif keys[pygame.K_RIGHT] and 'right' in self.node.neighbors:
                 self.move_to_node(self.node.neighbors['right'])
             elif keys[pygame.K_LEFT] and 'left' in self.node.neighbors:
                 self.move_to_node(self.node.neighbors['left'])
