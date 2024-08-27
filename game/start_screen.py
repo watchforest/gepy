@@ -62,7 +62,12 @@ def game_loop():
     network = create_network('assets/network/random_graph_100_nodes.gexf')
     player = Player(network.nodes[0], pygame.Color(255, 0, 0))
 
-    camera = Camera(WIDTH / 2, HEIGHT / 2)
+    # Assume the map is larger than the screen size
+    map_width = 2000  # Replace with your map's width
+    map_height = 2000  # Replace with your map's height
+
+    # Initialize the camera to follow the player within the map bounds
+    camera = Camera(WIDTH, HEIGHT, map_width, map_height)
 
     running = True
     while running:
@@ -73,11 +78,16 @@ def game_loop():
         keys = pygame.key.get_pressed()
         player.update(keys)
 
+        # Update the camera position to follow the player
         camera.update(player)
         camera_offset = camera.apply_offset()
 
         screen.fill(colors.BLACK)
+        
+        # Draw the network with camera offset
         network.draw(screen, colors.WHITE, camera_offset)
+
+        # Draw the player with camera offset
         screen.blit(player.image, player.rect.move(camera_offset))
         player.draw_message(screen, camera_offset)
 
@@ -86,6 +96,7 @@ def game_loop():
 
     pygame.quit()
     sys.exit()
+
 
 # Campaign menu
 def campaign_menu():
