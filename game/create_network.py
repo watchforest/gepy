@@ -5,19 +5,21 @@ from game.network import Network
 def load_gexf_to_network(gexf_file_path, network, scale=10):
     # Load the GEXF file
     graph = nx.read_gexf(gexf_file_path)
+    pos = nx.spring_layout(graph)
 
     # Create a dictionary to map node IDs to Node objects
     node_dict = {}
 
     # Add nodes to the network
-    for node_id, data in graph.nodes(data=True):
-        x = data['x'] * scale  # Scale up the x position
-        y = data['y'] * scale  # Scale up the y position
-        name = data.get('Id', node_id)  # Use label if available, otherwise the node ID
+    for node_test, (x, y) in pos.items():
+        x = x * scale  # Scale up the x position
+        y = y * scale  # Scale up the y position
+        #print(node_test)
+        name = node_test  # Use label if available, otherwise the node ID
         message = 'TEST'
-        print(f"Adding node with x={x}, y={y}, name={name}")
+        #print(f"Adding node with x={x}, y={y}, name={name}")
         node = network.add_node(x, y, name, message)
-        node_dict[node_id] = node
+        node_dict[node_test] = node
 
     # Add edges to the network and set neighbors
     for source, target in graph.edges():

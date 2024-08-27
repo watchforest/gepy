@@ -25,7 +25,7 @@ font = pygame.font.Font(None, 36)
 start_screen()
 
 # After the start screen is done, initialize the network and player
-G = 'assets/network/fully_connected_15_nodes.gexf'
+G = 'assets/network/star_topology.gexf'
 network = Network()
 load_gexf_to_network(G, network)
 

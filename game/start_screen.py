@@ -127,13 +127,13 @@ def run_files():
 
 # Start screen
 def start_screen():
-    #start_button = Button("Start", WIDTH // 4 - 150, HEIGHT // 2 + 100, 300, 75, game_loop)
-    levels_button = Button("Levels", WIDTH // 4 - 150, HEIGHT // 2 + 100, 300, 75, campaign_menu)
+    start_button = Button("Start", WIDTH // 4 - 150, HEIGHT // 2 + 100, 300, 75, game_loop)
+    #levels_button = Button("Levels", WIDTH // 4 - 150, HEIGHT // 2 + 100, 300, 75, campaign_menu)
    # upload_button = Button("Upload Files", WIDTH // 4 - 150, HEIGHT // 2 + 300, 300, 75, upload_files)
     #run_button = Button("Run Files", WIDTH // 4 - 150, HEIGHT // 2 + 400, 300, 75, run_files)
     exit_button = Button("Exit Game", WIDTH - 250, 50, 200, 75, lambda: (pygame.quit(), sys.exit()))
 
-    buttons =  [levels_button, exit_button] #start_button, upload_button, run_button. 
+    buttons =  [start_button, exit_button] #start_button, upload_button, run_button.
 
     running = True
     while running:
