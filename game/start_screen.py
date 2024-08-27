@@ -135,8 +135,9 @@ def start_screen():
     campaign_button = Button("campaign", WIDTH // 4 - 150, HEIGHT // 2 + 200, 300, 75, campaign_menu)
     upload_button = Button("upload files", WIDTH // 4 - 150, HEIGHT // 2 + 300, 300, 75, upload_files)
     run_button = Button("run Files", WIDTH // 4 - 150, HEIGHT // 2 + 400, 300, 75, run_files)
+    exit_button = Button("exit game", WIDTH - 250, 50, 200, 75, lambda: (pygame.quit(), sys.exit()))
 
-    buttons = [start_button, campaign_button, upload_button, run_button]
+    buttons = [start_button, campaign_button, upload_button, run_button, exit_button]
 
     running = True
     while running:
