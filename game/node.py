@@ -1,14 +1,13 @@
 import pygame
 
 class Node:
-    def __init__(self, x, y, name, message, size, type='normal'):
+    def __init__(self, x, y, name, message, size):
         self.x = x
         self.y = y
         self.name = name
         self.message = message
         self.size = int(size)
         self.neighbors = {}
-        #if type == 'normal':
 
 
     def draw(self, surface, color):
