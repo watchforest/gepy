@@ -9,7 +9,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(node.x, node.y))
         self.node = node
         self.target_node = node
-        self.speed = 5
+        self.speed = 30
         self.message = node.message
         self.moving = False
         self.direction = pygame.math.Vector2(0, 0)
