@@ -1,12 +1,10 @@
 import pygame
 
 class Camera:
-    def __init__(self, width, height, map_width, map_height):
+    def __init__(self, width, height):
         self.camera = pygame.Rect(0, 0, width, height)
         self.width = width
         self.height = height
-        self.map_width = map_width
-        self.map_height = map_height
 
     def apply(self, entity):
         return entity.rect.move(self.camera.topleft)
@@ -16,8 +14,10 @@ class Camera:
         y = -target.rect.centery + int(self.height / 2)
 
         # Limit scrolling to the map size
-        x = max(-(self.map_width - self.width), min(0, x))
-        y = max(-(self.map_height - self.height), min(0, y))
+        x = min(0, x)  # Left
+        y = min(0, y)  # Top
+        x = max(-(self.width - self.width), x)  # Right
+        y = max(-(self.height - self.height), y)  # Bottom
 
         self.camera = pygame.Rect(x, y, self.width, self.height)
 
