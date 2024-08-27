@@ -1,4 +1,6 @@
 # Networkgame
+
+<img src="/assets/images/start_screen_image.png" alt="MONSTER NETWORK">
 I am walking on networks 
 
 
