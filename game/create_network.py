@@ -2,7 +2,7 @@ import pandas as pd
 import networkx as nx
 from game.network import Network
 
-def load_gexf_to_network(gexf_file_path, network, scale=10):
+def load_gexf_to_network(gexf_file_path, network, scale=350):
     # Load the GEXF file
     graph = nx.read_gexf(gexf_file_path)
     pos = nx.spring_layout(graph)
@@ -11,15 +11,15 @@ def load_gexf_to_network(gexf_file_path, network, scale=10):
     node_dict = {}
 
     # Add nodes to the network
-    for node_test, (x, y) in pos.items():
-        x = x * scale  # Scale up the x position
-        y = y * scale  # Scale up the y position
+    for g_node, (x, y) in pos.items():
+        x = x * scale + 600  # Scale up the x position
+        y = y * scale + 550  # Scale up the y position
         #print(node_test)
-        name = node_test  # Use label if available, otherwise the node ID
-        message = 'TEST'
-        #print(f"Adding node with x={x}, y={y}, name={name}")
+        name = g_node  # Use label if available, otherwise the node ID
+        message = ' '
+        print(f"Adding node with x={x}, y={y}, name={name}")
         node = network.add_node(x, y, name, message)
-        node_dict[node_test] = node
+        node_dict[g_node] = node
 
     # Add edges to the network and set neighbors
     for source, target in graph.edges():
@@ -37,12 +37,12 @@ def load_gexf_to_network(gexf_file_path, network, scale=10):
                 node1.add_neighbor('down', node2)
                 node2.add_neighbor('up', node1)
 
-def create_network():
+def create_network(gexf_file_path):
     # Initialize the network
     network = Network()
-    
+
     # Load data into the network from the GEXF file
-    G = 'assets/network/fully_connected_15_nodes.gexf'
+    G = gexf_file_path
     load_gexf_to_network(G, network)
-    
+
     return network

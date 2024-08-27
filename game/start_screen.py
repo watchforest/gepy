@@ -59,7 +59,7 @@ class Button:
 
 # Game loop definition
 def game_loop():
-    network = create_network()
+    network = create_network('assets/network/star_topology.gexf')
     player = Player(network.nodes[0], pygame.Color(255, 0, 0))
 
     camera = Camera(WIDTH * 2, HEIGHT * 2)

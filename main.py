@@ -30,7 +30,7 @@ network = Network()
 load_gexf_to_network(G, network)
 
 # Initialize the player at the starting node
-player = Player(network.nodes[0], colors.RED)
+player = Player(network.nodes[11], colors.RED)
 
 # Main game loop
 running = True
