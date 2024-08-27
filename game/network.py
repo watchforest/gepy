@@ -16,14 +16,12 @@ class Network:
         edge = Edge(node1, node2)
         self.edges.append(edge)
 
-    def draw(self, screen, color):
-        # Ensure the color is valid
-        if isinstance(color, str):
-            color = pygame.Color(color)  # Convert color string to pygame.Color
-        elif not isinstance(color, pygame.Color) and not isinstance(color, tuple):
-            color = (255, 255, 255)  # Default to white if color is invalid
-
+    def draw(self, screen, color, camera_offset):
         for edge in self.edges:
-            edge.draw(screen, color)
+            start_pos = (edge.node1.x + camera_offset.x, edge.node1.y + camera_offset.y)
+            end_pos = (edge.node2.x + camera_offset.x, edge.node2.y + camera_offset.y)
+            pygame.draw.line(screen, color, start_pos, end_pos, 2)
+
         for node in self.nodes:
-            node.draw(screen, color)
+            node_rect = pygame.Rect(node.x + camera_offset.x, node.y + camera_offset.y, node.size, node.size)
+            pygame.draw.rect(screen, color, node_rect)
