@@ -2,11 +2,12 @@ import pandas as pd
 import networkx as nx
 from game.network import Network
 
-def load_gexf_to_network(gexf_file_path, network, scale=350):
+
+def load_gexf_to_network(gexf_file_path, network, scale=10000):
     # Load the GEXF file
     graph = nx.read_gexf(gexf_file_path)
     pos = nx.spring_layout(graph)
-
+    weighted_degrees = dict(graph.degree(weight='weight'))
     # Create a dictionary to map node IDs to Node objects
     node_dict = {}
 
@@ -14,11 +15,13 @@ def load_gexf_to_network(gexf_file_path, network, scale=350):
     for g_node, (x, y) in pos.items():
         x = x * scale + 600  # Scale up the x position
         y = y * scale + 550  # Scale up the y position
-        #print(node_test)
         name = g_node  # Use label if available, otherwise the node ID
         message = ' '
-        print(f"Adding node with x={x}, y={y}, name={name}")
-        node = network.add_node(x, y, name, message)
+        # Extract the node weight, defaulting to 1 if not present
+        node_weight = weighted_degrees[g_node]*1.5
+        #print(f"Adding node with x={x}, y={y}, name={name}, weight={node_weight}")
+        # Add the node to the network
+        node = network.add_node(x, y, name, message, node_weight)
         node_dict[g_node] = node
 
     # Add edges to the network and set neighbors

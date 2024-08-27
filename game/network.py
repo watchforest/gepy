@@ -7,8 +7,8 @@ class Network:
         self.nodes = []
         self.edges = []
 
-    def add_node(self, x, y, name, message):
-        node = Node(x, y, name, message)
+    def add_node(self, x, y, name, message, size):
+        node = Node(x, y, name, message, size)
         self.nodes.append(node)
         return node
 
