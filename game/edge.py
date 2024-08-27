@@ -1,4 +1,5 @@
 import pygame
+import game.colors as colors
 
 class Edge:
     def __init__(self, node1, node2):

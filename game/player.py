@@ -1,4 +1,5 @@
 import pygame
+import game.colors as colors
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, node, color):
@@ -42,7 +43,6 @@ class Player(pygame.sprite.Sprite):
 
     def draw_message(self, surface, camera_offset):
         if self.message:
-            WHITE = pygame.Color(255, 255, 255)
             font = pygame.font.Font(None, 36)
-            text_surface = font.render(self.message, True, WHITE)
+            text_surface = font.render(self.message, True, colors.WHITE)
             surface.blit(text_surface, (self.rect.x + 30 + camera_offset.x, self.rect.y - 20 + camera_offset.y))

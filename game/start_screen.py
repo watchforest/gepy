@@ -1,7 +1,8 @@
 import pygame
 import sys
 import os
-from create_network import create_network  # Import from create_network module
+import game.colors as colors
+from game.create_network import create_network  # Import from create_network module
 from game.player import Player  # Import Player class from player module
 from game.camera import Camera  # Import Camera class from camera module
 
@@ -15,11 +16,6 @@ WIDTH, HEIGHT = screen.get_size()  # Get the actual screen size in fullscreen mo
 pygame.display.set_caption("Network Node Game")
 clock = pygame.time.Clock()
 FPS = 60
-
-# Define colors
-WHITE = pygame.Color(255, 255, 255)
-BLACK = pygame.Color(0, 0, 0)
-BACKGROUND_COLOR = pygame.Color(BLACK)
 
 # Load the custom font for the title
 font_path = os.path.join('assets', 'font', 'Pastor of Muppets.TTF')
@@ -38,15 +34,15 @@ class Button:
     def __init__(self, text, x, y, width, height, action=None):
         self.text = text
         self.rect = pygame.Rect(x, y, width, height)
-        self.color = WHITE  # Button color is initially WHITE
-        self.text_color = BLACK  # Text color is initially BLACK
+        self.color = colors.WHITE  # Button color is initially WHITE
+        self.text_color = colors.BLACK  # Text color is initially BLACK
         self.hovered = False
         self.action = action
         self.font = pygame.font.Font(font_path, 74)  # Use the same font as the title
 
     def draw(self, surface):
         if self.hovered:
-            pygame.draw.rect(surface, BLACK, self.rect)
+            pygame.draw.rect(surface, colors.BLACK, self.rect)
         else:
             pygame.draw.rect(surface, self.color, self.rect)
         text_surface = self.font.render(self.text, True, self.text_color if not self.hovered else WHITE)
@@ -83,7 +79,7 @@ def game_loop():
         camera.update(player)
         camera_offset = camera.apply_offset()
 
-        screen.fill(BLACK)
+        screen.fill(colors.BLACK)
         network.draw(screen, camera_offset)
         screen.blit(player.image, player.rect.move(camera_offset))
         player.draw_message(screen, camera_offset)
@@ -101,8 +97,8 @@ def campaign_menu():
 
     running = True
     while running:
-        screen.fill(BACKGROUND_COLOR)
-        title_surface = title_font.render("Campaign", True, WHITE)
+        screen.fill(colors.BLACK)
+        title_surface = title_font.render("Campaign", True, colors.WHITE)
         screen.blit(title_surface, (WIDTH // 2 - title_surface.get_width() // 2, HEIGHT // 10))
 
         for event in pygame.event.get():
@@ -144,8 +140,8 @@ def start_screen():
 
     running = True
     while running:
-        screen.fill(BACKGROUND_COLOR)  # Set background color to the specified hex color
-        title_surface = title_font.render("SYNDESI", True, WHITE)
+        screen.fill(colors.BLACK)  # Set background color to the specified hex color
+        title_surface = title_font.render("SYNDESI", True, colors.WHITE)
         screen.blit(title_surface, (WIDTH // 2 - title_surface.get_width() // 2, HEIGHT // 10))  # Move title up
 
         for event in pygame.event.get():

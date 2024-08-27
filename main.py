@@ -2,8 +2,9 @@ import pygame
 import sys
 from game.network import Network
 from game.player import Player
-from create_network import load_gexf_to_network
+from game.create_network import load_gexf_to_network
 from game.start_screen import start_screen
+import game.colors as colors
 
 # Initialize Pygame
 pygame.init()
@@ -15,11 +16,6 @@ WIDTH, HEIGHT = screen.get_size()  # Get the actual screen size in fullscreen mo
 pygame.display.set_caption("Network Node Game")
 clock = pygame.time.Clock()
 FPS = 60
-
-# Define colors using pygame.Color
-WHITE = pygame.Color(255, 255, 255)
-BLACK = pygame.Color(0, 0, 0)
-RED = pygame.Color(255, 0, 0)
 
 # Setup font for text rendering
 font = pygame.font.Font(None, 36)
@@ -33,7 +29,7 @@ network = Network()
 load_gexf_to_network(G, network)
 
 # Initialize the player at the starting node
-player = Player(network.nodes[0], RED)
+player = Player(network.nodes[0], colors.RED)
 
 # Main game loop
 running = True
@@ -45,8 +41,8 @@ while running:
     keys = pygame.key.get_pressed()
     player.update(keys)
 
-    screen.fill(BLACK)
-    network.draw(screen, WHITE)
+    screen.fill(colors.BLACK)
+    network.draw(screen, colors.WHITE)
     screen.blit(player.image, player.rect)
     player.draw_message(screen)
     pygame.display.flip()
