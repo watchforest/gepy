@@ -70,6 +70,9 @@ def game_loop():
     # Initialize the BeginFigure instance
     begin_figure = BeginFigure('assets/images/start_screen_image.png', (WIDTH - 650, HEIGHT // 2 - 200), screen)
 
+    # Create the "Back to Main Menu" button
+    back_button = Button("main menu", WIDTH - 310, 20, 290, 50, start_screen)
+
     running = True
     figure_displayed = False  # Track whether the figure has been displayed
     waiting_for_keypress = False  # Wait for a keypress after text is fully shown
@@ -106,13 +109,20 @@ def game_loop():
             if begin_figure.show_button:
                 waiting_for_keypress = True  # Now waiting for the user to press a key
 
-        screen.blit(player.image, camera.apply(player.rect))  # Draw the player with camera offset
+        # Draw the player with camera offset
+        screen.blit(player.image, camera.apply(player.rect))
+
+        # Draw the "Back to Main Menu" button
+        mouse_position = pygame.mouse.get_pos()
+        back_button.check_for_input(mouse_position)
+        back_button.draw(screen)
 
         pygame.display.flip()
         clock.tick(FPS)
 
     pygame.quit()
     sys.exit()
+
 
 # Campaign menu
 def campaign_menu():
