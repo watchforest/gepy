@@ -2,7 +2,6 @@ import pandas as pd
 import networkx as nx
 from game.network import Network
 
-
 def load_gexf_to_network(gexf_file_path, network, scale=10000):
     # Load the GEXF file
     graph = nx.read_gexf(gexf_file_path)
@@ -68,8 +67,6 @@ def load_gexf_to_network(gexf_file_path, network, scale=10000):
                     add_neighbor_if_closer(node1, node2, 'up-left', 'down-right')
                 elif dx < 0 and dy > 0:  # Down-left
                     add_neighbor_if_closer(node1, node2, 'down-left', 'up-right')
-
-
 
 def create_network(gexf_file_path):
     # Initialize the network

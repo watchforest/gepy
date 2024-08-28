@@ -10,9 +10,9 @@ from game.camera import Camera  # Import Camera class from camera module
 pygame.init()
 
 # Define constants
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.NOFRAME)
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.NOFRAME, pygame.OPENGL)
 WIDTH, HEIGHT = screen.get_size()
-pygame.display.set_caption("Network Node Game")
+pygame.display.set_caption("Syndesi")
 clock = pygame.time.Clock()
 FPS = 60
 
@@ -47,7 +47,7 @@ class Button:
         pygame.draw.rect(surface, colors.BLACK if self.hovered else self.color, self.rect)
         text_surface = self.font.render(self.text, True, self.text_color if not self.hovered else colors.WHITE)
         surface.blit(text_surface, (self.rect.x + (self.rect.width - text_surface.get_width()) // 2,
-                                    self.rect.y + (self.rect.height - text_surface.get_height()) // 2))
+                                    self.rect.y + (self.rect.height - text_surface.get_height()) // 2+20))
 
     def check_for_input(self, position):
         if self.rect.collidepoint(position):
@@ -69,13 +69,14 @@ def game_loop():
     running = True
     while running:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
 
         # Update the player based on user input
         keys = pygame.key.get_pressed()
         player.update(keys)
-
         # Update the camera to follow the player
         camera.update(player)
 
