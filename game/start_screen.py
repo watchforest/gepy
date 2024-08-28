@@ -68,7 +68,7 @@ def game_loop():
     camera = Camera(WIDTH, HEIGHT)
 
     # Initialize the BeginFigure instance
-    begin_figure = BeginFigure('assets/images/start_screen_image.png', (WIDTH - 650, HEIGHT // 2 - 200), screen)
+    begin_figure = BeginFigure('assets/images/start_screen_image.png', (WIDTH - 850, HEIGHT // 2 - 200), screen)
 
     # Create the "Back to Main Menu" button
     back_button = Button("main menu", WIDTH - 310, 20, 290, 50, start_screen)

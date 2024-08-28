@@ -3,7 +3,7 @@ import pygame
 class BeginFigure:
     def __init__(self, image_path, position, screen):
         self.image = pygame.image.load(image_path).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (250, 250))  # Adjust size as needed
+        self.image = pygame.transform.scale(self.image, (600, 600))  # Adjust size as needed
         self.position = position
         self.screen = screen
         self.alpha = 0  # Start with fully transparent
@@ -22,7 +22,7 @@ class BeginFigure:
         self.button_rect = pygame.Rect(position[0] + 50, position[1] + 250, 200, 50)
         self.show_button = False
 
-    def fade_in(self, speed=15):
+    def fade_in(self, speed=14):
         """Gradually increase the alpha value to fade in the image."""
         if self.alpha < 255:
             self.alpha += speed
