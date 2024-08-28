@@ -4,7 +4,7 @@ import os
 import game.styles as colors
 from game.create_network import create_network  
 from game.player import Player
-from game.styles import gamefont
+from game.styles import gamefont, base_dir
 from game.button import Button
 from game.camera import Camera
 from game.begin_figure import BeginFigure
@@ -13,7 +13,7 @@ from game.begin_figure import BeginFigure
 pygame.init()
 
 # Define constants
-WIDTH, HEIGHT = 1920, 1080
+WIDTH, HEIGHT = 1280, 720
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN | pygame.NOFRAME | pygame.HWSURFACE | pygame.DOUBLEBUF, vsync=1)
 pygame.display.set_caption("Syndesi")
 clock = pygame.time.Clock()
