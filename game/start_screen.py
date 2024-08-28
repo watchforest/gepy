@@ -1,61 +1,34 @@
 import pygame
 import sys
 import os
-import game.colors as colors
+import game.styles as colors
 from game.create_network import create_network  
 from game.player import Player  
-from game.camera import Camera  
+from game.camera import Camera
+from game.styles import gamefont
+from game.button import Button
 
 # Initialize Pygame
 pygame.init()
 
 # Define constants
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.NOFRAME, pygame.OPENGL, vsync=1)
-WIDTH, HEIGHT = screen.get_size()
+WIDTH, HEIGHT = 1920, 1080
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN | pygame.NOFRAME | pygame.HWSURFACE | pygame.DOUBLEBUF, vsync=1)
 pygame.display.set_caption("Syndesi")
 clock = pygame.time.Clock()
 FPS = 60
 
-# Determine the base directory of the project
-base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-font_path = os.path.join(base_dir, 'assets', 'font', 'Pastor of Muppets.TTF')
-
-# Load the title font
-title_font = pygame.font.Font(font_path, 200)
-
-# Setup font for button rendering
-button_font = pygame.font.Font(None, 74)
+title_font = gamefont(200)
+button_font = gamefont(74)
 
 # Load the image for the start screen
 image_path = os.path.join(base_dir, 'assets', 'images', 'start_screen_image.png')
 start_screen_image = pygame.image.load(image_path).convert_alpha()
 start_screen_image = pygame.transform.scale(start_screen_image, (600, 600))
 
-# Button class to handle the buttons
-class Button:
-    def __init__(self, text, x, y, width, height, action=None):
-        self.text = text
-        self.rect = pygame.Rect(x, y, width, height)
-        self.color = colors.WHITE  # Button color is initially WHITE
-        self.text_color = colors.BLACK  # Text color is initially BLACK
-        self.hovered = False
-        self.action = action
-        self.font = pygame.font.Font(font_path, 74)
-
-    def draw(self, surface):
-        # Change button color on hover
-        pygame.draw.rect(surface, colors.BLACK if self.hovered else self.color, self.rect)
-        text_surface = self.font.render(self.text, True, self.text_color if not self.hovered else colors.WHITE)
-        surface.blit(text_surface, (self.rect.x + (self.rect.width - text_surface.get_width()) // 2,
-                                    self.rect.y + (self.rect.height - text_surface.get_height()) // 2+20))
-
-    def check_for_input(self, position):
-        if self.rect.collidepoint(position):
-            self.hovered = True
-            if pygame.mouse.get_pressed()[0] and self.action:
-                self.action()
-        else:
-            self.hovered = False
+def exit_game():
+    pygame.quit()
+    sys.exit()
 
 # Game loop definition
 def game_loop():

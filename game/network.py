@@ -1,7 +1,8 @@
 from .node import Node
 from .edge import Edge
 import pygame
-from game.colors import NODE_COLOR
+from pygame import gfxdraw
+from game.styles import NODE_COLOR
 
 class Network:
     def __init__(self):

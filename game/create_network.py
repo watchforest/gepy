@@ -19,9 +19,8 @@ def load_gexf_to_network(gexf_file_path, network, scale=10000):
 
     # Add nodes to the network
     for g_node, (x, y) in pos.items():
-        print(type(g_node))
-        x = x * scale + 600  # Scale up the x position
-        y = y * scale + 550  # Scale up the y position
+        x = x * scale  # Scale up the x position
+        y = y * scale  # Scale up the y position
         name = g_node  # Use label if available, otherwise the node ID
         message = ' '
         # Extract the node weight, defaulting to 1 if not present

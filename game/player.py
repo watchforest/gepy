@@ -1,5 +1,5 @@
 import pygame
-import game.colors as colors
+import game.styles as colors
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, node, color):

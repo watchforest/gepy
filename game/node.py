@@ -1,5 +1,5 @@
 import pygame
-from game.colors import NODE_COLOR
+from game.styles import NODE_COLOR
 
 class Node:
     def __init__(self, x, y, name, message, size, cluster):
