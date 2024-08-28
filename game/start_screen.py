@@ -4,7 +4,8 @@ import os
 import game.colors as colors
 from game.create_network import create_network  
 from game.player import Player  
-from game.camera import Camera  
+from game.camera import Camera
+from game.begin_figure import BeginFigure
 
 # Initialize Pygame
 pygame.init()
@@ -66,32 +67,52 @@ def game_loop():
     # Initialize the camera to match the screen size
     camera = Camera(WIDTH, HEIGHT)
 
+    # Initialize the BeginFigure instance
+    begin_figure = BeginFigure('assets/images/start_screen_image.png', (WIDTH - 650, HEIGHT // 2 - 200), screen)
+
     running = True
+    figure_displayed = False  # Track whether the figure has been displayed
+    waiting_for_keypress = False  # Wait for a keypress after text is fully shown
+
     while running:
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
 
-        # Update the player based on user input
-        keys = pygame.key.get_pressed()
-        player.update(keys)
-        # Update the camera to follow the player
-        camera.update(player)
+                # If text has been fully displayed, then respond to any keypress
+                if waiting_for_keypress:
+                    figure_displayed = True
+                    waiting_for_keypress = False  # Reset for potential future use
+
+        # Update the player based on user input only after the figure is done
+        if figure_displayed:
+            keys = pygame.key.get_pressed()
+            player.update(keys)
+            camera.update(player)
 
         # Clear the screen and redraw everything with the camera offset
         screen.fill(colors.BLACK)
         network.draw(screen, colors.WHITE, camera)  # Ensure network.draw handles the camera
+
+        if not figure_displayed:
+            # Display the figure until it's fully shown
+            begin_figure.draw()
+            if begin_figure.show_button:
+                waiting_for_keypress = True  # Now waiting for the user to press a key
+
         screen.blit(player.image, camera.apply(player.rect))  # Draw the player with camera offset
 
-        # Refresh the display
         pygame.display.flip()
         clock.tick(FPS)
 
     pygame.quit()
     sys.exit()
-
 
 # Campaign menu
 def campaign_menu():
