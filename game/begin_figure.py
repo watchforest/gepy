@@ -7,7 +7,7 @@ class BeginFigure:
         self.position = position
         self.screen = screen
         self.alpha = 0  # Start with fully transparent
-        self.text = "Welcome to hell! Press a key to begin"
+        self.text = "Welcome to GE.PY!!! Press a key to begin"
         self.displayed_text = ""
         self.text_index = 0
         self.typing_speed = 1  # Control the speed of the text appearing
