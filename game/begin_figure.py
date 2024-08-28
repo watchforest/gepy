@@ -22,7 +22,7 @@ class BeginFigure:
         self.button_rect = pygame.Rect(position[0] + 50, position[1] + 250, 200, 50)
         self.show_button = False
 
-    def fade_in(self, speed=10):
+    def fade_in(self, speed=15):
         """Gradually increase the alpha value to fade in the image."""
         if self.alpha < 255:
             self.alpha += speed
