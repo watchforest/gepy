@@ -7,4 +7,4 @@ class Edge:
         self.node2 = node2
 
     def draw(self, screen, color):
-        pygame.draw.line(screen, color, (self.node1.x, self.node1.y), (self.node2.x, self.node2.y), 2)
+        pygame.draw.line(screen, color, (self.node1.x, self.node1.y), (self.node2.x, self.node2.y), 10)

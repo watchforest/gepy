@@ -1,21 +1,21 @@
 from .node import Node
 from .edge import Edge
 import pygame
+from game.colors import NODE_COLOR
 
 class Network:
     def __init__(self):
         self.nodes = []
         self.edges = []
 
-    def add_node(self, x, y, name, message, size):
-        node = Node(x, y, name, message, size)
+    def add_node(self, x, y, name, message, size, cluster):
+        node = Node(x, y, name, message, size, cluster)
         self.nodes.append(node)
         return node
 
     def add_edge(self, node1, node2):
         edge = Edge(node1, node2)
         self.edges.append(edge)
-
 
     def draw(self, screen, color, camera):
         for edge in self.edges:
@@ -25,5 +25,5 @@ class Network:
 
         for node in self.nodes:
             node_center = camera.apply(pygame.Rect(node.x, node.y, 0, 0)).center
-            pygame.draw.circle(screen, color, node_center, node.size)
+            pygame.draw.circle(screen, NODE_COLOR[node.cluster], node_center, node.size)
 

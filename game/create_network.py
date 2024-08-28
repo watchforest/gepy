@@ -7,20 +7,29 @@ def load_gexf_to_network(gexf_file_path, network, scale=10000):
     graph = nx.read_gexf(gexf_file_path)
     pos = nx.spring_layout(graph)
     weighted_degrees = dict(graph.degree(weight='weight'))
+    communities_generator = nx.community.greedy_modularity_communities(graph)
+    # Create an inverted dictionary directly
+    cluster_dict = {
+        node: i
+        for i, community in enumerate(communities_generator)
+        for node in community
+    }
     # Create a dictionary to map node IDs to Node objects
     node_dict = {}
 
     # Add nodes to the network
     for g_node, (x, y) in pos.items():
+        print(type(g_node))
         x = x * scale + 600  # Scale up the x position
         y = y * scale + 550  # Scale up the y position
         name = g_node  # Use label if available, otherwise the node ID
         message = ' '
         # Extract the node weight, defaulting to 1 if not present
         node_weight = weighted_degrees[g_node]*5
+        node_cluster = cluster_dict[g_node]
         #print(f"Adding node with x={x}, y={y}, name={name}, weight={node_weight}")
         # Add the node to the network
-        node = network.add_node(x, y, name, message, node_weight)
+        node = network.add_node(x, y, name, message, node_weight, node_cluster)
         node_dict[g_node] = node
 
     # Add edges to the network and set neighbors
