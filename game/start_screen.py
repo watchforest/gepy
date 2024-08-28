@@ -2,9 +2,9 @@ import pygame
 import sys
 import os
 import game.colors as colors
-from game.create_network import create_network  # Import from create_network module
-from game.player import Player  # Import Player class from player module
-from game.camera import Camera  # Import Camera class from camera module
+from game.create_network import create_network  
+from game.player import Player  
+from game.camera import Camera  
 
 # Initialize Pygame
 pygame.init()
