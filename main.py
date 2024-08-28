@@ -8,7 +8,7 @@ pygame.init()
 # Define constants
 # Setup the display in fullscreen mode without window borders
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.NOFRAME)
-WIDTH, HEIGHT = screen.get_size()  # Get the actual screen size in fullscreen mode
+WIDTH, HEIGHT = screen.get_size() 
 pygame.display.set_caption("Network Node Game")
 clock = pygame.time.Clock()
 FPS = 60
