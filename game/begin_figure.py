@@ -10,7 +10,7 @@ class BeginFigure:
         self.text = "Welcome to hell! Press a key to begin"
         self.displayed_text = ""
         self.text_index = 0
-        self.typing_speed = 2  # Control the speed of the text appearing
+        self.typing_speed = 1  # Control the speed of the text appearing
         self.typing_counter = 0
         self.font = pygame.font.Font(None, 36)
         self.bubble_width = 300
@@ -22,7 +22,7 @@ class BeginFigure:
         self.button_rect = pygame.Rect(position[0] + 50, position[1] + 250, 200, 50)
         self.show_button = False
 
-    def fade_in(self, speed=5):
+    def fade_in(self, speed=10):
         """Gradually increase the alpha value to fade in the image."""
         if self.alpha < 255:
             self.alpha += speed
