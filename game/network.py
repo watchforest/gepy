@@ -16,7 +16,7 @@ class Network:
         edge = Edge(node1, node2)
         self.edges.append(edge)
 
-    
+
     def draw(self, screen, color, camera):
         for edge in self.edges:
             start_pos = camera.apply(pygame.Rect(edge.node1.x, edge.node1.y, 0, 0)).topleft
@@ -26,3 +26,4 @@ class Network:
         for node in self.nodes:
             node_center = camera.apply(pygame.Rect(node.x, node.y, 0, 0)).center
             pygame.draw.circle(screen, color, node_center, node.size)
+

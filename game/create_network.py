@@ -17,7 +17,7 @@ def load_gexf_to_network(gexf_file_path, network, scale=10000):
         name = g_node  # Use label if available, otherwise the node ID
         message = ' '
         # Extract the node weight, defaulting to 1 if not present
-        node_weight = weighted_degrees[g_node]*1.5
+        node_weight = weighted_degrees[g_node]*5
         #print(f"Adding node with x={x}, y={y}, name={name}, weight={node_weight}")
         # Add the node to the network
         node = network.add_node(x, y, name, message, node_weight)

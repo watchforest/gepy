@@ -10,7 +10,7 @@ from game.camera import Camera  # Import Camera class from camera module
 pygame.init()
 
 # Define constants
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.NOFRAME, pygame.OPENGL)
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.NOFRAME, pygame.OPENGL, vsync=1)
 WIDTH, HEIGHT = screen.get_size()
 pygame.display.set_caption("Syndesi")
 clock = pygame.time.Clock()
