@@ -3,6 +3,7 @@
 <img src="/assets/images/start_screen_image.png" alt="MONSTER NETWORK">
 I am walking on networks 
 
+```bash
 network_game\
 ├── main.py\
 ├── config.py\
@@ -17,3 +18,4 @@ network_game\
 │   └── sounds\
 ├── README.md\
 └── requirements.txt\
+```
