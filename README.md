@@ -4,7 +4,7 @@
 I am walking on networks 
 
 ```bash
-network_game
+Networkgame
 ├── main.py
 ├── config.py
 ├── game
