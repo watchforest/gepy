@@ -9,12 +9,20 @@ network_game\
 ├── config.py\
 ├── game\
 │   ├── __init__.py\
-│   ├── node.py\
+│   ├── begin_figure.py\
+│   ├── button.py\
+│   ├── camera.py\
+│   ├── create_network.py\
 │   ├── edge.py\
-│   ├── player.py\
 │   ├── network.py\
+│   ├── node.py\
+│   ├── player.py\
+│   ├── start_screen.py\
+│   └── styles.py\
 ├── assets\
+│   ├── font\
 │   ├── images\
+│   ├── network\
 │   └── sounds\
 ├── README.md\
 └── requirements.txt\
