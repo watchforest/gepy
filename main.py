@@ -1,20 +1,27 @@
 import pygame
+import sys
 from game.start_screen import start_screen
+from game.config import WIDTH, HEIGHT, TITLE
 
 
-# Initialize Pygame
-pygame.init()
+def main():
+    # Initialize Pygame
+    pygame.init()
 
-# Define constants
-# Setup the display in fullscreen mode without window borders
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN | pygame.NOFRAME)
-WIDTH, HEIGHT = screen.get_size() 
-pygame.display.set_caption("Network Node Game")
-clock = pygame.time.Clock()
-FPS = 60
+    # Setup the display
+    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN | pygame.NOFRAME)
+    pygame.display.set_caption(TITLE)
 
-# Setup font for text rendering
-font = pygame.font.Font(None, 36)
+    # Setup clock for controlling game speed
+    clock = pygame.time.Clock()
 
-# Start screen function
-start_screen()
+    # Start the game
+    start_screen(screen, clock)
+
+    # Quit game when start_screen returns
+    pygame.quit()
+    sys.exit()
+
+
+if __name__ == "__main__":
+    main()

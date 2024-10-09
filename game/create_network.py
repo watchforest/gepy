@@ -1,6 +1,8 @@
 import pandas as pd
 import networkx as nx
 from game.network import Network
+import pygame
+
 
 def load_gexf_to_network(gexf_file_path, network, scale=10000):
     # Load the GEXF file
@@ -8,12 +10,14 @@ def load_gexf_to_network(gexf_file_path, network, scale=10000):
     pos = nx.spring_layout(graph)
     weighted_degrees = dict(graph.degree(weight='weight'))
     communities_generator = nx.community.greedy_modularity_communities(graph)
+
     # Create an inverted dictionary directly
     cluster_dict = {
         node: i
         for i, community in enumerate(communities_generator)
         for node in community
     }
+
     # Create a dictionary to map node IDs to Node objects
     node_dict = {}
 
@@ -24,9 +28,9 @@ def load_gexf_to_network(gexf_file_path, network, scale=10000):
         name = g_node  # Use label if available, otherwise the node ID
         message = ' '
         # Extract the node weight, defaulting to 1 if not present
-        node_weight = weighted_degrees[g_node]*5
+        node_weight = weighted_degrees[g_node] * 5
         node_cluster = cluster_dict[g_node]
-        #print(f"Adding node with x={x}, y={y}, name={name}, weight={node_weight}")
+
         # Add the node to the network
         node = network.add_node(x, y, name, message, node_weight, node_cluster)
         node_dict[g_node] = node
@@ -40,9 +44,9 @@ def load_gexf_to_network(gexf_file_path, network, scale=10000):
         # Only add the closest node in each direction
         def add_neighbor_if_closer(node1, node2, direction1, direction2):
             if direction1 not in node1.neighbors or (
-                (node2.x - node1.x) ** 2 + (node2.y - node1.y) ** 2
+                    (node2.x - node1.x) ** 2 + (node2.y - node1.y) ** 2
             ) < (
-                (node1.neighbors[direction1].x - node1.x) ** 2 + (node1.neighbors[direction1].y - node1.y) ** 2
+                    (node1.neighbors[direction1].x - node1.x) ** 2 + (node1.neighbors[direction1].y - node1.y) ** 2
             ):
                 node1.add_neighbor(direction1, node2)
                 node2.add_neighbor(direction2, node1)
@@ -76,12 +80,12 @@ def load_gexf_to_network(gexf_file_path, network, scale=10000):
                 elif dx < 0 and dy > 0:  # Down-left
                     add_neighbor_if_closer(node1, node2, 'down-left', 'up-right')
 
+
 def create_network(gexf_file_path):
     # Initialize the network
     network = Network()
 
     # Load data into the network from the GEXF file
-    G = gexf_file_path
-    load_gexf_to_network(G, network)
+    load_gexf_to_network(gexf_file_path, network)
 
     return network
