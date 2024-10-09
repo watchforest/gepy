@@ -53,7 +53,7 @@ def handle_events(buttons):
 def draw_start_screen(screen, buttons, start_screen_image):
     screen.fill(BLACK)
     title_font = resource_manager.get_font(200)
-    title_surface = title_font.render("SYNDESI", True, WHITE)
+    title_surface = title_font.render("ge.py", True, WHITE)
     screen.blit(title_surface, (WIDTH // 2 - title_surface.get_width() // 2, HEIGHT // 10))
 
     for button in buttons:
@@ -73,7 +73,7 @@ def game_loop(screen, clock, game_state):
     begin_figure_image = resource_manager.load_image('begin_figure', 'start_screen_image.png')
     begin_figure = BeginFigure(begin_figure_image, (WIDTH - 850, HEIGHT // 2 - 200), screen)
 
-    back_button = Button("Main Menu", WIDTH - 310, 20, 290, 50,
+    back_button = Button("main menu", WIDTH - 310, 20, 290, 50,
                          lambda: game_state.change_state(GameStateEnum.START_SCREEN))
 
     pause_menu = PauseMenu(
