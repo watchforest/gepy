@@ -29,7 +29,7 @@ def start_screen(screen, clock):
     # Create buttons
     start_button = Button("Start", WIDTH // 4 - 150, HEIGHT // 2 + 100, 300, 75,
                           lambda: game_loop(screen, clock, game_state))
-    exit_button = Button("Exit Game", WIDTH - 250, 50, 200, 75, exit_game)
+    exit_button = Button("exit game", WIDTH - 250, 50, 200, 75, exit_game)
     buttons = [start_button, exit_button]
 
     # Main loop
