@@ -10,9 +10,9 @@ class PauseMenu:
         button_spacing = 20
         start_y = HEIGHT // 2 - (3 * button_height + 2 * button_spacing) // 2
 
-        self.resume_button = Button("Resume", WIDTH // 2 - button_width // 2, start_y, button_width, button_height, resume_action)
-        self.settings_button = Button("Settings", WIDTH // 2 - button_width // 2, start_y + button_height + button_spacing, button_width, button_height, settings_action)
-        self.exit_button = Button("Exit", WIDTH // 2 - button_width // 2, start_y + 2 * (button_height + button_spacing), button_width, button_height, exit_action)
+        self.resume_button = Button("resume", WIDTH // 2 - button_width // 2, start_y, button_width, button_height, resume_action)
+        self.settings_button = Button("settings", WIDTH // 2 - button_width // 2, start_y + button_height + button_spacing, button_width, button_height, settings_action)
+        self.exit_button = Button("exit", WIDTH // 2 - button_width // 2, start_y + 2 * (button_height + button_spacing), button_width, button_height, exit_action)
         self.buttons = [self.resume_button, self.settings_button, self.exit_button]
         self.font = game_font(74)
 
@@ -29,7 +29,7 @@ class PauseMenu:
         screen.blit(overlay, (0, 0))
 
         # Draw "Paused" text
-        paused_text = self.font.render("Paused", True, WHITE)
+        paused_text = self.font.render("paused", True, WHITE)
         screen.blit(paused_text, (WIDTH // 2 - paused_text.get_width() // 2, HEIGHT // 4))
 
         # Draw buttons
