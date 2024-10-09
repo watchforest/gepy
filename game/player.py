@@ -25,36 +25,39 @@ class Player(pygame.sprite.Sprite):
     def update(self, keys):
         if not self.moving:
             target_node = None
+            # Helper function to check if a key is pressed
+            def key_pressed(key):
+                return keys[key]
 
             # Check for diagonal movement
-            if keys[pygame.K_UP] and keys[pygame.K_RIGHT]:
+            if (key_pressed(pygame.K_UP) or key_pressed(pygame.K_w)) and (key_pressed(pygame.K_RIGHT) or key_pressed(pygame.K_d)):
                 if 'up-right' in self.node.neighbors:
                     target_node = self.node.neighbors['up-right']
                 elif 'up' in self.node.neighbors and 'right' in self.node.neighbors:
                     target_node = self.node.neighbors['up']
-            elif keys[pygame.K_UP] and keys[pygame.K_LEFT]:
+            elif (key_pressed(pygame.K_UP) or key_pressed(pygame.K_w)) and (key_pressed(pygame.K_LEFT) or key_pressed(pygame.K_a)):
                 if 'up-left' in self.node.neighbors:
                     target_node = self.node.neighbors['up-left']
                 elif 'up' in self.node.neighbors and 'left' in self.node.neighbors:
                     target_node = self.node.neighbors['up']
-            elif keys[pygame.K_DOWN] and keys[pygame.K_RIGHT]:
+            elif (key_pressed(pygame.K_DOWN) or key_pressed(pygame.K_s)) and (key_pressed(pygame.K_RIGHT) or key_pressed(pygame.K_d)):
                 if 'down-right' in self.node.neighbors:
                     target_node = self.node.neighbors['down-right']
                 elif 'down' in self.node.neighbors and 'right' in self.node.neighbors:
                     target_node = self.node.neighbors['down']
-            elif keys[pygame.K_DOWN] and keys[pygame.K_LEFT]:
+            elif (key_pressed(pygame.K_DOWN) or key_pressed(pygame.K_s)) and (key_pressed(pygame.K_LEFT) or key_pressed(pygame.K_a)):
                 if 'down-left' in self.node.neighbors:
                     target_node = self.node.neighbors['down-left']
                 elif 'down' in self.node.neighbors and 'left' in self.node.neighbors:
                     target_node = self.node.neighbors['down']
             # Check for single direction movement
-            elif keys[pygame.K_RIGHT] and 'right' in self.node.neighbors:
+            elif (key_pressed(pygame.K_RIGHT) or key_pressed(pygame.K_d)) and 'right' in self.node.neighbors:
                 target_node = self.node.neighbors['right']
-            elif keys[pygame.K_LEFT] and 'left' in self.node.neighbors:
+            elif (key_pressed(pygame.K_LEFT) or key_pressed(pygame.K_a)) and 'left' in self.node.neighbors:
                 target_node = self.node.neighbors['left']
-            elif keys[pygame.K_UP] and 'up' in self.node.neighbors:
+            elif (key_pressed(pygame.K_UP) or key_pressed(pygame.K_w)) and 'up' in self.node.neighbors:
                 target_node = self.node.neighbors['up']
-            elif keys[pygame.K_DOWN] and 'down' in self.node.neighbors:
+            elif (key_pressed(pygame.K_DOWN) or key_pressed(pygame.K_s)) and 'down' in self.node.neighbors:
                 target_node = self.node.neighbors['down']
 
             # Move to the determined target node, if any
@@ -65,8 +68,8 @@ class Player(pygame.sprite.Sprite):
             self.rect.x += self.direction.x
             self.rect.y += self.direction.y
             if self.direction.length() > 0 and self.direction.dot(
-                    pygame.math.Vector2(self.target_node.x - self.rect.centerx,
-                                        self.target_node.y - self.rect.centery)) <= 0:
+                pygame.math.Vector2(self.target_node.x - self.rect.centerx,
+                                    self.target_node.y - self.rect.centery)) <= 0:
                 self.rect.center = (self.target_node.x, self.target_node.y)
                 self.node = self.target_node
                 self.message = self.node.message
