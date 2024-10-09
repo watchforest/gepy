@@ -1,13 +1,15 @@
-from pygame import Color, font
+from pygame import Color
 from pygame.font import Font
 import os
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 font_path = os.path.join(base_dir, 'assets', 'font', 'Pastor of Muppets.TTF')
 
-def gamefont(size):
+
+def game_font(size):
     font = Font(font_path, size)
     return font
+
 
 WHITE = Color(255, 255, 255)
 BLACK = Color(0, 0, 0)
@@ -32,4 +34,3 @@ NODE_COLOR = {
     7: ORANGE,
     8: PURPLE,
 }
-

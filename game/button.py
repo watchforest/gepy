@@ -1,6 +1,6 @@
 import pygame
 import game.styles as colors
-from game.styles import gamefont
+from game.styles import game_font
 class Button:
     def __init__(self, text, x, y, width, height, action=None):
         self.text = text
@@ -9,7 +9,7 @@ class Button:
         self.text_color = colors.BLACK  # Text color is initially BLACK
         self.hovered = False
         self.action = action
-        self.font = gamefont(74)
+        self.font = game_font(74)
 
     def draw(self, surface):
         # Change button color on hover

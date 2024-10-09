@@ -1,6 +1,7 @@
 import pygame
 import game.styles as colors
 
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, node, color):
         super().__init__()
@@ -24,7 +25,7 @@ class Player(pygame.sprite.Sprite):
     def update(self, keys):
         if not self.moving:
             target_node = None
-            
+
             # Check for diagonal movement
             if keys[pygame.K_UP] and keys[pygame.K_RIGHT]:
                 if 'up-right' in self.node.neighbors:
@@ -63,14 +64,16 @@ class Player(pygame.sprite.Sprite):
             # Update the player's position
             self.rect.x += self.direction.x
             self.rect.y += self.direction.y
-            if self.direction.length() > 0 and self.direction.dot(pygame.math.Vector2(self.target_node.x - self.rect.x, self.target_node.y - self.rect.y)) <= 0:
+            if self.direction.length() > 0 and self.direction.dot(
+                    pygame.math.Vector2(self.target_node.x - self.rect.centerx,
+                                        self.target_node.y - self.rect.centery)) <= 0:
                 self.rect.center = (self.target_node.x, self.target_node.y)
                 self.node = self.target_node
                 self.message = self.node.message
                 self.moving = False
 
-
-    def draw_message(self, surface, camera_offset):
+    def draw(self, surface, camera_offset):
+        surface.blit(self.image, (self.rect.x + camera_offset.x, self.rect.y + camera_offset.y))
         if self.message:
             font = pygame.font.Font(None, 36)
             text_surface = font.render(self.message, True, colors.WHITE)

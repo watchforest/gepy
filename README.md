@@ -13,9 +13,7 @@ Networkgame
 │   ├── button.py
 │   ├── camera.py
 │   ├── create_network.py
-│   ├── edge.py
 │   ├── network.py
-│   ├── node.py
 │   ├── player.py
 │   ├── start_screen.py
 │   └── styles.py

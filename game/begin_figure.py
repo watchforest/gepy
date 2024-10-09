@@ -1,13 +1,13 @@
 import pygame
 
 class BeginFigure:
-    def __init__(self, image_path, position, screen):
-        self.image = pygame.image.load(image_path).convert_alpha()
+    def __init__(self, image, position, screen):
+        self.image = image
         self.image = pygame.transform.scale(self.image, (600, 600))  # Adjust size as needed
         self.position = position
         self.screen = screen
         self.alpha = 0  # Start with fully transparent
-        self.text = "Welcome to GE.PY!!! Press a key to begin"
+        self.text = "Welcome to GE.PY... Press a key to begin"
         self.displayed_text = ""
         self.text_index = 0
         self.typing_speed = 1  # Control the speed of the text appearing
