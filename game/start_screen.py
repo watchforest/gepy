@@ -67,23 +67,20 @@ def game_loop(screen, clock, game_state):
     # Initialize game objects
     network = create_network('assets/network/random_graph_100_nodes.gexf')
     player = Player(network.nodes[0], pygame.Color(255, 0, 0))
+    opponent = Opponent(network.nodes[-1], pygame.Color(0, 0, 255), network)  # Pass the network here
     camera = Camera(WIDTH, HEIGHT)
-
+    
     # Load the image once using ResourceManager
     begin_figure_image = resource_manager.load_image('begin_figure', 'start_screen_image.png')
     begin_figure = BeginFigure(begin_figure_image, (WIDTH - 850, HEIGHT // 2 - 200), screen)
-
     back_button = Button("main menu", WIDTH - 310, 20, 290, 50,
                          lambda: game_state.change_state(GameStateEnum.START_SCREEN))
-
     pause_menu = PauseMenu(
         resume_action=game_state.toggle_pause,
         settings_action=game_state.enter_settings,
         exit_action=exit_game
     )
-
     settings_menu = SettingsMenu(back_action=game_state.exit_settings)
-
     game_state.change_state(GameStateEnum.INTRO_FIGURE)
 
     # Main game loop
@@ -100,7 +97,6 @@ def game_loop(screen, clock, game_state):
                         game_state.change_state(GameStateEnum.PLAYING)
                 else:
                     game_state.handle_keypress()
-
             if game_state.is_state(GameStateEnum.PAUSED):
                 pause_menu.handle_event(event)
             elif game_state.is_state(GameStateEnum.SETTINGS):
@@ -108,30 +104,27 @@ def game_loop(screen, clock, game_state):
 
         # Update game state
         game_state.update()
-
         if game_state.is_state(GameStateEnum.PLAYING):
             keys = pygame.key.get_pressed()
             player.update(keys)
+            opponent.update(player)  # Pass the whole player object
             camera.update(player)
         elif game_state.is_state(GameStateEnum.INTRO_FIGURE) and begin_figure.show_button:
             game_state.start_waiting_for_keypress()
 
         # Draw game
         screen.fill(BLACK)
-
         if not game_state.is_state(GameStateEnum.SETTINGS):
             network.draw(screen, WHITE, camera)
-
             if game_state.is_state(GameStateEnum.INTRO_FIGURE):
                 begin_figure.draw()
             elif game_state.is_state(GameStateEnum.PLAYING) or game_state.is_state(GameStateEnum.PAUSED):
                 player.draw(screen, camera.camera)
-
-            back_button.check_for_input(pygame.mouse.get_pos())
-            back_button.draw(screen)
-
-        if game_state.is_state(GameStateEnum.PAUSED):
-            pause_menu.draw(screen)
+                opponent.draw(screen, camera.camera)
+                back_button.check_for_input(pygame.mouse.get_pos())
+                back_button.draw(screen)
+            if game_state.is_state(GameStateEnum.PAUSED):
+                pause_menu.draw(screen)
         elif game_state.is_state(GameStateEnum.SETTINGS):
             settings_menu.draw(screen)
 
@@ -140,7 +133,6 @@ def game_loop(screen, clock, game_state):
 
     # If we've exited the game loop, return to the start screen
     start_screen(screen, clock)
-
 
 def exit_game():
     pygame.quit()
