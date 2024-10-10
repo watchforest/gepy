@@ -10,6 +10,7 @@ from game.game_state import GameState, GameStateEnum
 from game.pause_menu import PauseMenu
 from game.settings_menu import SettingsMenu
 from game.resource_manager import ResourceManager
+from game.opponent import Opponent 
 
 # Initialize ResourceManager
 resource_manager = ResourceManager()
