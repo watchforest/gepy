@@ -12,7 +12,7 @@ class Opponent(pygame.sprite.Sprite):
         self.node = node
         self.target_node = node
         self.next_node = None
-        self.speed = 25  # Slightly slower than the player
+        self.speed = 5
         self.moving = False
         self.direction = pygame.math.Vector2(0, 0)
         self.active = False
@@ -32,7 +32,7 @@ class Opponent(pygame.sprite.Sprite):
             self.direction = self.direction.normalize() * self.speed
         self.moving = True
 
-    def update(self, player):
+    def update(self, player, network):
         if not self.active:
             if self.activation_start_time is None:
                 self.activation_start_time = time.time()
@@ -42,7 +42,6 @@ class Opponent(pygame.sprite.Sprite):
 
         player_target = player.target_node if player.moving else player.node
 
-        # Only recalculate path when we've reached a node
         if not self.moving:
             if player_target != self.last_player_target:
                 self.path = self.find_path(self.node, player_target)
@@ -52,20 +51,15 @@ class Opponent(pygame.sprite.Sprite):
                 self.move_to_node(self.next_node)
             else:
                 self.next_node = None
-
-        if self.moving:
-            # Update the opponent's position
+        else:
             new_pos = self.rect.center + self.direction
             self.rect.center = new_pos
-
-            # Check if we've reached or passed the target node
             to_target = pygame.math.Vector2(self.target_node.x - self.rect.centerx, self.target_node.y - self.rect.centery)
             if self.direction.dot(to_target) <= 0:
                 self.rect.center = (self.target_node.x, self.target_node.y)
                 self.node = self.target_node
                 self.moving = False
                 
-                # Recalculate path after reaching the node
                 self.path = self.find_path(self.node, player_target)
                 self.last_player_target = player_target
                 
@@ -75,9 +69,10 @@ class Opponent(pygame.sprite.Sprite):
                 else:
                     self.next_node = None
 
-    def draw(self, surface, camera_offset):
+    def draw(self, surface, camera):
         if self.active:
-            surface.blit(self.image, (self.rect.x + camera_offset.x, self.rect.y + camera_offset.y))
+            draw_pos = camera.apply(pygame.math.Vector2(self.rect.topleft))
+            surface.blit(self.image, draw_pos)
 
     def start_activation_timer(self):
         self.activation_start_time = time.time()
