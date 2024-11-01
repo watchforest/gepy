@@ -1,28 +1,19 @@
 import pygame
 
-
 class Camera:
     def __init__(self, width, height):
-        self.camera = pygame.Rect(0, 0, width, height)
         self.width = width
         self.height = height
-
-    def apply(self, entity):
-        if isinstance(entity, pygame.Rect):
-            return entity.move(self.camera.topleft)
-        elif hasattr(entity, 'rect'):
-            return entity.rect.move(self.camera.topleft)
-        else:
-            raise TypeError("Entity must be a Rect or have a 'rect' attribute")
+        self.x = 0
+        self.y = 0
 
     def update(self, target):
-        x = -target.rect.centerx + int(self.width / 2)
-        y = -target.rect.centery + int(self.height / 2)
+        # Use the player's direct position instead of expecting a rect
+        self.x = -target.x + self.width // 2
+        self.y = -target.y + self.height // 2
 
-        # Limit scrolling to game boundaries
-        # x = min(0, x)  # left
-        # y = min(0, y)  # top
-        # x = max(-(self.width), x)  # right
-        # y = max(-(self.height), y)  # bottom
-
-        self.camera = pygame.Rect(x, y, self.width, self.height)
+    def apply(self, pos):
+        # Convert tuple to Vector2 if needed
+        if isinstance(pos, tuple):
+            pos = pygame.math.Vector2(pos)
+        return pygame.math.Vector2(pos.x + self.x, pos.y + self.y)
