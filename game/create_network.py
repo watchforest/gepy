@@ -1,91 +1,44 @@
-import pandas as pd
 import networkx as nx
-from game.network import Network
 import pygame
+from game.network import Network
+import random
 
+def create_network(source, width, height):
+    if isinstance(source, str):  # If source is a file path
+        G = nx.read_gexf(source)
+    else:  # If source is not a string, assume it's the number of nodes for a random graph
+        G = nx.gnm_random_graph(source, source * 2)  # Creates a random graph
 
-def load_gexf_to_network(gexf_file_path, network, scale=10000):
-    # Load the GEXF file
-    graph = nx.read_gexf(gexf_file_path)
-    pos = nx.spring_layout(graph)
-    weighted_degrees = dict(graph.degree(weight='weight'))
-    communities_generator = nx.community.greedy_modularity_communities(graph)
-
-    # Create an inverted dictionary directly
-    cluster_dict = {
-        node: i
-        for i, community in enumerate(communities_generator)
-        for node in community
-    }
-
-    # Create a dictionary to map node IDs to Node objects
-    node_dict = {}
-
-    # Add nodes to the network
-    for g_node, (x, y) in pos.items():
-        x = x * scale  # Scale up the x position
-        y = y * scale  # Scale up the y position
-        name = g_node  # Use label if available, otherwise the node ID
-        message = ' '
-        # Extract the node weight, defaulting to 1 if not present
-        node_weight = weighted_degrees[g_node] * 5
-        node_cluster = cluster_dict[g_node]
-
-        # Add the node to the network
-        node = network.add_node(x, y, name, message, node_weight, node_cluster)
-        node_dict[g_node] = node
-
-    # Add edges to the network and set neighbors
-    for source, target in graph.edges():
-        node1 = node_dict[source]
-        node2 = node_dict[target]
-        network.add_edge(node1, node2)
-
-        # Only add the closest node in each direction
-        def add_neighbor_if_closer(node1, node2, direction1, direction2):
-            if direction1 not in node1.neighbors or (
-                    (node2.x - node1.x) ** 2 + (node2.y - node1.y) ** 2
-            ) < (
-                    (node1.neighbors[direction1].x - node1.x) ** 2 + (node1.neighbors[direction1].y - node1.y) ** 2
-            ):
-                node1.add_neighbor(direction1, node2)
-                node2.add_neighbor(direction2, node1)
-
-        for source, target in graph.edges():
-            node1 = node_dict[source]
-            node2 = node_dict[target]
-            network.add_edge(node1, node2)
-
-            if node1 != node2:
-                dx = node2.x - node1.x
-                dy = node2.y - node1.y
-
-                # Primary Directions
-                if dx > 0 and abs(dy) <= abs(dx):  # Mostly right
-                    add_neighbor_if_closer(node1, node2, 'right', 'left')
-                elif dx < 0 and abs(dy) <= abs(dx):  # Mostly left
-                    add_neighbor_if_closer(node1, node2, 'left', 'right')
-                if dy > 0 and abs(dx) <= abs(dy):  # Mostly down
-                    add_neighbor_if_closer(node1, node2, 'down', 'up')
-                elif dy < 0 and abs(dx) <= abs(dy):  # Mostly up
-                    add_neighbor_if_closer(node1, node2, 'up', 'down')
-
-                # Diagonal Directions
-                if dx > 0 and dy < 0:  # Up-right
-                    add_neighbor_if_closer(node1, node2, 'up-right', 'down-left')
-                elif dx > 0 and dy > 0:  # Down-right
-                    add_neighbor_if_closer(node1, node2, 'down-right', 'up-left')
-                elif dx < 0 and dy < 0:  # Up-left
-                    add_neighbor_if_closer(node1, node2, 'up-left', 'down-right')
-                elif dx < 0 and dy > 0:  # Down-left
-                    add_neighbor_if_closer(node1, node2, 'down-left', 'up-right')
-
-
-def create_network(gexf_file_path):
-    # Initialize the network
+    # Create a Network object
     network = Network()
 
-    # Load data into the network from the GEXF file
-    load_gexf_to_network(gexf_file_path, network)
+    # Get the positions of the nodes
+    pos = nx.spring_layout(G, k=0.5, iterations=50)
 
+    # Scale the positions to fit the desired width and height
+    x_values, y_values = zip(*pos.values())
+    x_min, x_max = min(x_values), max(x_values)
+    y_min, y_max = min(y_values), max(y_values)
+    
+    scale_x = (width - 100) / (x_max - x_min)
+    scale_y = (height - 100) / (y_max - y_min)
+    scale = min(scale_x, scale_y)
+
+    # Add nodes
+    for node_id, (x, y) in pos.items():
+        scaled_x = (x - x_min) * scale + 50
+        scaled_y = (y - y_min) * scale + 50
+        cluster = random.randint(0, 5)  # Random cluster for color variety
+        node = network.add_node(scaled_x, scaled_y, str(node_id), "", 10, cluster)
+
+    # Add edges
+    for edge in G.edges():
+        node1 = network.get_node_by_name(str(edge[0]))
+        node2 = network.get_node_by_name(str(edge[1]))
+        if node1 and node2:
+            network.add_edge(node1, node2)
+
+    # Render the network to a surface
+    network.render_to_surface(width, height)
+    
     return network
